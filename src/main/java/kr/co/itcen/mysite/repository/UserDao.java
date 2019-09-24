@@ -94,6 +94,7 @@ public class UserDao {
 				
 				result = new UserVo();
 				result.setNo(no);
+				result.setEmail(email);
 				result.setName(name);
 			}
 			
