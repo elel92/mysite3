@@ -70,4 +70,26 @@ public class UserController {
 		
 		return "redirect:/";
 	}
+	
+	@RequestMapping(value="/update", method=RequestMethod.GET)
+	public String update() {
+		return "user/update";
+	}
+	
+	@RequestMapping(value="/update", method=RequestMethod.POST)
+	public String update(HttpSession session, @ModelAttribute UserVo vo) {
+		UserVo authUser = (UserVo)session.getAttribute("authUser");
+		
+		//접근 제어
+		if(authUser == null) {
+			return "redirect:/";
+		}
+		
+		vo.setNo(authUser.getNo());
+		userService.update(vo);
+		
+		session.setAttribute("authUser", vo);
+		
+		return "redirect:/";
+	}
 }

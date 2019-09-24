@@ -38,7 +38,7 @@ public class UserDao {
 			stmt = connection.createStatement();
 			rs = stmt.executeQuery("select last_insert_id()");
 			if(rs.next()) {
-				Long no = rs.getLong(1);
+				int no = rs.getInt(1);
 				vo.setNo(no);
 			}
 			
@@ -89,7 +89,7 @@ public class UserDao {
 			
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
-				Long no = rs.getLong(1);
+				int no = rs.getInt(1);
 				String name = rs.getString(2);
 				
 				result = new UserVo();
@@ -133,5 +133,31 @@ public class UserDao {
 		
 		return connection;
 	}
-
+	
+	public void update(int no, String name, String gender, String password) {
+		Connection connection = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			connection = getConnection();
+			
+			String sql = "update user set name = ?, gender = ?, password = ? where no = ?";
+			pstmt = connection.prepareStatement(sql);
+			pstmt.setString(1, name);
+			pstmt.setString(2, gender);
+			pstmt.setString(3, password);
+			pstmt.setInt(4, no);
+			
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		} finally {
+			try {
+				if(pstmt != null) pstmt.close();
+				if(connection != null) connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }

@@ -19,4 +19,8 @@ public class UserService {
 		
 		return userDao.get(vo);
 	}
+	
+	public void update(UserVo vo) {
+		userDao.update(vo.getNo(), vo.getName(), vo.getGender(), vo.getPassword());
+	}
 }
