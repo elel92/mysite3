@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="board">
+	<insert id="first_insert" parameterType="boardvo">
+		<![CDATA[insert into board values(null, #{title}, #{contents}, 0, now(), #{g_no}, 1, 0, #{status}, #{user_no})]]>
+	</insert>
+	
+	<select id="select_g_no" resultType="int">
+		<![CDATA[select ifnull(max(g_no), 0) from board]]>
+	</select>
+	
+	<select id="reply_select" parameterType="map" resultType="boardvo">
+		<![CDATA[select no, g_no, o_no, depth, user_no from board where no = #{no} and user_no = #{user_no}]]>
+	</select>
+	
+	<update id="update_reply" parameterType="map">
+		<![CDATA[update board set o_no = o_no+1 where no = any(select * from (select no from board where g_no = #{g_no} and o_no >= #{o_no}) as sub)]]>
+	</update>
+	
+	<select id="select_o_no" parameterType="map" resultType="int">
+		<![CDATA[select o_no from board where g_no = #{g_no} and no = #{no}]]>
+	</select>
+	
+	<insert id="reply_insert" parameterType="boardvo">
+		<![CDATA[insert into board values(null, #{title}, #{contents}, 0, now(), #{g_no}, #{o_no}, #{depth}, #{status}, #{user_no})]]>
+	</insert>
+	
+	<select id="select" parameterType="map" resultType="boardvo">
+		<![CDATA[select no, title, contents, status, user_no from board where no = #{no} and user_no = #{user_no}]]>
+	</select>
+	
+	<update id="update" parameterType="map">
+		<![CDATA[update board set title = #{title}, contents = #{contents} where no = #{no} and user_no = #{user_no}]]>
+	</update>
+	
+	<update id="delete" parameterType="map">
+		<![CDATA[update board set status = #{status} where no = #{no} and user_no = #{user_no}]]>
+	</update>
+	
+	<update id="update_hit" parameterType="map">
+		<![CDATA[update board set hit = hit+1 where no = #{no} and user_no = #{user_no}]]>
+	</update>
+	
+	<select id="searchList" parameterType="String" resultType="boardvo">
+		<![CDATA[
+			select b.no, b.title, b.contents, b.hit, b.reg_date, b.g_no, b.o_no, b.depth, b.status, b.user_no, u.name from board b, user u where b.user_no = u.no and (b.title like #{kwd} or b.contents like #{kwd}) order by b.g_no desc, b.depth, b.o_no asc
+		]]>
+	</select>
+	
+	<select id="searchList_page" parameterType="map" resultType="boardvo">
+		<![CDATA[
+			select b.no, b.title, b.contents, b.hit, b.reg_date, b.g_no, b.o_no, b.depth, b.status, b.user_no, u.name from board b, user u where b.user_no = u.no and (b.title like #{kwd} or b.contents like #{kwd}) order by b.g_no desc, b.depth, b.o_no asc limit #{page_no}, 10
+		]]>
+	
+	</select>
+	
+	<select id="getList" resultType="boardvo">
+		<![CDATA[
+			select b.no, b.title, b.contents, b.hit, b.reg_date, b.g_no, b.o_no, b.depth, b.status, b.user_no, u.name from board b, user u where b.user_no = u.no order by b.g_no desc, b.o_no asc
+		]]>
+	</select>
+	
+	<select id="limit_getList" parameterType="int" resultType="boardvo">
+		<![CDATA[
+			select b.no, b.title, b.contents, b.hit, b.reg_date, b.g_no, b.o_no, b.depth, b.status, b.user_no, u.name from board b, user u where b.user_no = u.no order by b.g_no desc, b.o_no asc limit #{page_no}, 10
+		]]>
+	
+	</select>
+</mapper>

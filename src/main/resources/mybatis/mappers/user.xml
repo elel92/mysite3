@@ -15,6 +15,10 @@
 	</select>
 	
 	<update id="update"  parameterType="map">
-		<![CDATA[update user set name = #{name}, gender = #{gender}, password = #{password} where no = #{no}]]>
+		<![CDATA[update user set name = #{name},]]>
+		<if test="password != ''">
+			<![CDATA[password = #{password},]]>
+		</if>
+		<![CDATA[gender = #{gender} where no = #{no}]]>
 	</update>
 </mapper>

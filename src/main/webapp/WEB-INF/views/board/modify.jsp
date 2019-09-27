@@ -15,8 +15,7 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp"/>
 		<div id="content">
 			<div id="board">
-				<form class="board-form" method="post" action="${pageContext.servletContext.contextPath}/board">
-					<input type = 'hidden' name = 'a' value = 'modify'>
+				<form class="board-form" method="post" action="${pageContext.servletContext.contextPath}/board/modify">
 					<input type = 'hidden' name = 'no' value = '${update_list.no}'>
 					<input type = 'hidden' name = 'user_no' value = '${update_list.user_no}'>
 					<table class="tbl-ex">
@@ -30,12 +29,12 @@
 						<tr>
 							<td class="label">내용</td>
 							<td>
-								<textarea id="content" name="content">${fn:replace(update_list.contents, replace, '<br>')}</textarea>
+								<textarea id="content" name="contents">${fn:replace(update_list.contents, replace, '<br>')}</textarea>
 							</td>
 						</tr>
 					</table>
 					<div class="bottom">
-						<a href="${pageContext.servletContext.contextPath}/board?a=view&no=${update_list.no}&user_no=${update_list.user_no}">취소</a>
+						<a href="${pageContext.servletContext.contextPath}/board/view?no=${update_list.no}&user_no=${update_list.user_no}">취소</a>
 						<input type="submit" value="수정">
 					</div>
 				</form>				

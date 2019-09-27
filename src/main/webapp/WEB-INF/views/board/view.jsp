@@ -36,11 +36,11 @@
 				<div class="bottom">
 					<a href="${pageContext.servletContext.contextPath}/board">글목록</a>
 					<c:if test="${not empty authUser}">
-						<a href="${pageContext.servletContext.contextPath}/board?a=replyform&no=${read_list.no}&user_no=${read_list.user_no}">답글</a>
+						<a href="${pageContext.servletContext.contextPath}/board/reply?no=${read_list.no}&user_no=${read_list.user_no}">답글</a>
 					</c:if>
 					<c:if test="${read_list.user_no == authUser.no}">
-						<a href="${pageContext.servletContext.contextPath}/board?a=modifyform&no=${read_list.no}&user_no=${read_list.user_no}">글수정</a>
-						<a href="${pageContext.servletContext.contextPath}/board?a=delete&no=${read_list.no}&user_no=${read_list.user_no}">삭제</a>
+						<a href="${pageContext.servletContext.contextPath}/board/modify?no=${read_list.no}&user_no=${read_list.user_no}">글수정</a>
+						<a href="${pageContext.servletContext.contextPath}/board/delete?no=${read_list.no}&user_no=${read_list.user_no}">삭제</a>
 					</c:if>
 				</div>
 			</div>

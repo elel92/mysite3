@@ -124,11 +124,19 @@ a#new-book	 {
 	padding:10px 20px 11px 20px 
 }
 
-a.del	{
+a.dell	{
 	display:block;
 	width:20px;
 	height:20px; 
 	background:url("/mysite2/assets/images/recycle.png") no-repeat 0 0;
+	font-size:0;
+}
+
+a.del	{
+	display:block;
+	width:20px;
+	height:20px; 
+	background:url("/mysite3/assets/images/recycle.png") no-repeat 0 0;
 	font-size:0;
 }
 

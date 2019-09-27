@@ -1,12 +1,7 @@
 package kr.co.itcen.mysite.repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.sql.DataSource;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +34,7 @@ public class UserDao {
 		
 		UserVo result = sqlSession.selectOne("getByEmailAndPassword2", map);
 		
-		return result;		
+		return result;
 	}
 	
 	public void update(int no, String name, String gender, String password) {

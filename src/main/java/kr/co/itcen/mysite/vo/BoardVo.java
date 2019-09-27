@@ -11,7 +11,7 @@ public class BoardVo {
 	private int depth;
 	private int user_no;
 	private String status;
-	private String user_name;
+	private String name;
 	
 	public String getStatus() {
 		return status;
@@ -20,10 +20,10 @@ public class BoardVo {
 		this.status = status;
 	}
 	public String getUser_name() {
-		return user_name;
+		return name;
 	}
-	public void setUser_name(String user_name) {
-		this.user_name = user_name;
+	public void setUser_name(String name) {
+		this.name = name;
 	}
 	public int getNo() {
 		return no;

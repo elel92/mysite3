@@ -15,7 +15,7 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp"/>
 		<div id="content">
 			<div id="board">
-				<form id="search_form" action="${pageContext.servletContext.contextPath}/board?a=search" method="post">
+				<form id="search_form" action="${pageContext.servletContext.contextPath}/board" method="post">
 					<input type="text" id="kwd" name="kwd" value="">
 					<input type="submit" value="찾기">
 				</form>
@@ -36,12 +36,29 @@
 								<c:when test="${li.depth > 0}">
 									<td class="label" style="padding-left:${30*li.depth-20}px;text-align:left">
 										<img src='${pageContext.servletContext.contextPath }/assets/images/reply.png'/>
-										<a href="${pageContext.servletContext.contextPath}/board?a=view&no=${li.no}&user_no=${li.user_no}">${li.title}</a>
+										<c:choose>
+											<c:when test="${li.status == 'Y'}">
+												삭제된 게시글입니다.
+											</c:when>
+												
+											<c:otherwise>
+												<a href="${pageContext.servletContext.contextPath}/board/view?no=${li.no}&user_no=${li.user_no}">${li.title}</a>
+											</c:otherwise>
+										</c:choose>
 									</td>
 								</c:when>
+								
 								<c:otherwise>
 									<td class="label" style="text-align:left">
-										<a href="${pageContext.servletContext.contextPath}/board?a=view&no=${li.no}&user_no=${li.user_no}">${li.title}</a>
+										<c:choose>
+											<c:when test="${li.status == 'Y'}">
+												삭제된 게시글입니다.
+											</c:when>
+											
+											<c:otherwise>
+												<a href="${pageContext.servletContext.contextPath}/board/view?no=${li.no}&user_no=${li.user_no}">${li.title}</a>
+											</c:otherwise>
+										</c:choose>
 									</td>
 								</c:otherwise>
 							</c:choose>
@@ -50,7 +67,7 @@
 							<td>${li.reg_date}</td>
 							<td>
 							<c:if test="${li.user_no == authUser.no}">
-							<a href="${pageContext.servletContext.contextPath}/board?a=delete&no=${li.no}&user_no=${li.user_no}" class="del">삭제</a>
+							<a href="${pageContext.servletContext.contextPath}/board/delete?no=${li.no}&user_no=${li.user_no}" class="del">삭제</a>
 							</c:if>
 							</td>
 						</tr>
@@ -64,7 +81,7 @@
 								<c:set var='search_page_count' value = '${fn:length(list)}'></c:set>
 								
 								<c:if test="${page_num > 10}">
-									<li><a href="${pageContext.servletContext.contextPath}/board?a=search&page_no=${(next_page_count-2)*10}&kwd=${kwd}&next_page_count=${next_page_count-1}">◀</a></li>
+									<li><a href="${pageContext.servletContext.contextPath}/board?page_no=${(next_page_count-2)*10}&kwd=${kwd}&next_page_count=${next_page_count-1}">◀</a></li>
 								</c:if>
 								
 								<c:forEach var='c'  begin ='1' end='${(search_page_count-1)/10+1}' step='1'>
@@ -72,20 +89,20 @@
 										<c:choose>
 											<c:when test="${page_num == c}">
 												<li class="selected">
-													<a href="${pageContext.servletContext.contextPath}/board?a=search&page_no=${c-1}&kwd=${kwd}&next_page_count=${next_page_count}">${c}</a>
+													<a href="${pageContext.servletContext.contextPath}/board?page_no=${c-1}&kwd=${kwd}&next_page_count=${next_page_count}">${c}</a>
 												</li>
 											</c:when>
 											<c:otherwise>
 												<li>
-													<a href="${pageContext.servletContext.contextPath}/board?a=search&page_no=${c-1}&kwd=${kwd}&next_page_count=${next_page_count}">${c}</a>
+													<a href="${pageContext.servletContext.contextPath}/board?page_no=${c-1}&kwd=${kwd}&next_page_count=${next_page_count}">${c}</a>
 												</li>
 											</c:otherwise>
 										</c:choose>
 									</c:if>
 								</c:forEach>
 								
-								<c:if test="${page_num <= (search_page_count-1)/10 && (search_page_count-1)/10 > 10}">
-									<li><a href="${pageContext.servletContext.contextPath}/board?a=search&page_no=${next_page_count*10}&kwd=${kwd}&next_page_count=${next_page_count+1}">▶</a></li>
+								<c:if test="${next_page_count < ((search_page_count-1)/10+1)/10}">
+									<li><a href="${pageContext.servletContext.contextPath}/board?page_no=${next_page_count*10}&kwd=${kwd}&next_page_count=${next_page_count+1}">▶</a></li>
 								</c:if>
 							</c:when>
 							
@@ -113,7 +130,7 @@
 									</c:if>
 								</c:forEach>
 								
-								<c:if test="${page_num <= (page_count-1)/10 && (page_count-1)/10 > 10}">
+								<c:if test="${next_page_count < ((page_count-1)/10+1)/10}">
 									<li><a href="${pageContext.servletContext.contextPath}/board?page_no=${next_page_count*10}&next_page_count=${next_page_count+1}">▶</a></li>
 								</c:if>
 							</c:otherwise>
@@ -123,7 +140,7 @@
 				
 				<c:if test="${not empty authUser}">
 					<div class="bottom">
-						<a href="${pageContext.servletContext.contextPath}/board?a=writeform" id="new-book">글쓰기</a>
+						<a href="${pageContext.servletContext.contextPath}/board/write" id="new-book">글쓰기</a>
 					</div>		
 				</c:if>	
 			</div>

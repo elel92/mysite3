@@ -17,12 +17,12 @@
 			<div id="board">
 				<c:choose>
 					<c:when test="${not empty reply_vo}">
-						<form class="board-form" method="post" action="${pageContext.servletContext.contextPath}/board">
-						<input type = "hidden" name = "a" value="reply">
+						<form class="board-form" method="post" action="${pageContext.servletContext.contextPath}/board/reply">
 						<input type = "hidden" name = "no" value = "${reply_vo.no}">
 						<input type = "hidden" name = "g_no" value = "${reply_vo.g_no}">
 						<input type = "hidden" name = "o_no" value = "${reply_vo.o_no}">
 						<input type = "hidden" name = "depth" value = "${reply_vo.depth}">
+						
 						<table class="tbl-ex">
 							<tr>
 								<th colspan="2">글쓰기</th>
@@ -34,7 +34,7 @@
 							<tr>
 								<td class="label">내용</td>
 								<td>
-									<textarea id="content" name="content"></textarea>
+									<textarea id="content" name="contents"></textarea>
 								</td>
 							</tr>
 						</table>
@@ -44,9 +44,9 @@
 						</div>
 						</form>
 					</c:when>
+					
 					<c:otherwise>
-						<form class="board-form" method="post" action="${pageContext.servletContext.contextPath}/board">
-						<input type = "hidden" name = "a" value="write">
+						<form class="board-form" method="post" action="${pageContext.servletContext.contextPath}/board/write">
 						<table class="tbl-ex">
 							<tr>
 								<th colspan="2">글쓰기</th>
@@ -58,7 +58,7 @@
 							<tr>
 								<td class="label">내용</td>
 								<td>
-									<textarea id="content" name="content"></textarea>
+									<textarea id="content" name="contents"></textarea>
 								</td>
 							</tr>
 						</table>
