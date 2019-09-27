@@ -53,10 +53,13 @@ public class BoardDao {
 		map.put("no", vo.getNo());
 		
 		int o_no = sqlSession.selectOne("board.select_o_no", map);
+		o_no++;
 		
-		vo.setStatus("N");
-		vo.setO_no(o_no + 1);
+		update_reply(vo.getG_no(), o_no);
+
+		vo.setO_no(o_no);
 		vo.setDepth(vo.getDepth()+1);
+		vo.setStatus("N");
 		
 		sqlSession.insert("board.reply_insert", vo);
 		
